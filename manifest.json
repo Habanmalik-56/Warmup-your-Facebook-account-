@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Facebook Account Warm Up",
+  "version": "1.0.0",
+  "description": "Simulates human scrolling and liking behavior on Facebook to safely warm up accounts.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs"
+  ],
+  "host_permissions": [
+    "*://*.facebook.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.facebook.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
