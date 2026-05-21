@@ -3,7 +3,7 @@
 let loopActive = false;
 let sessionTimeoutId = null;
 let totalScrolledPixels = 0;
-let nextReadingPauseDistance = randomRange(800, 1600);
+let nextReadingPauseDistance = randomRange(1200, 2400);
 
 // Helper function: delay execution
 function delay(ms) {
@@ -111,7 +111,7 @@ async function runInteractionLoop() {
     }
 
     // 3. Pause between cycles (human jitter delay)
-    const cyclePause = randomRange(3000, 6000);
+    const cyclePause = randomRange(2000, 4000);
     await delay(cyclePause);
   }
 }
@@ -123,29 +123,29 @@ async function performHumanScroll(speed) {
   // Configure speed coefficients
   switch (speed) {
     case 'slow':
-      // Increased by 0.8x further
-      stepMin = 22;
-      stepMax = 48;
-      delayMin = 65;
-      delayMax = 115;
-      totalDistance = randomRange(320, 650);
+      // 1.5x speed boost
+      stepMin = 33;
+      stepMax = 72;
+      delayMin = 43;
+      delayMax = 77;
+      totalDistance = randomRange(480, 975);
       break;
     case 'fast':
-      // Increased by 0.8x further
-      stepMin = 94;
-      stepMax = 190;
-      delayMin = 16;
-      delayMax = 38;
-      totalDistance = randomRange(1080, 1890);
+      // 1.5x speed boost
+      stepMin = 141;
+      stepMax = 285;
+      delayMin = 10;
+      delayMax = 25;
+      totalDistance = randomRange(1620, 2835);
       break;
     case 'normal':
     default:
-      // Increased by 0.8x further
-      stepMin = 40;
-      stepMax = 94;
-      delayMin = 33;
-      delayMax = 66;
-      totalDistance = randomRange(600, 1130);
+      // 1.5x speed boost
+      stepMin = 60;
+      stepMax = 141;
+      delayMin = 22;
+      delayMax = 44;
+      totalDistance = randomRange(900, 1695);
       break;
   }
 
@@ -162,11 +162,11 @@ async function performHumanScroll(speed) {
 
     // Trigger intermittent reading pauses (simulate human processing)
     if (totalScrolledPixels >= nextReadingPauseDistance) {
-      const readPause = randomRange(6000, 14000);
+      const readPause = randomRange(3000, 8000);
       console.log(`[FB Warm Up] Simulating reading pause for ${readPause}ms...`);
       await delay(readPause);
       totalScrolledPixels = 0;
-      nextReadingPauseDistance = randomRange(800, 1600);
+      nextReadingPauseDistance = randomRange(1200, 2400);
     }
 
     const wait = randomRange(delayMin, delayMax);
@@ -280,7 +280,7 @@ async function checkAndPerformLike() {
 
     // Double-check visibility and status before interaction
     if (isElementInViewport(targetBtn) && !isAlreadyLiked(targetBtn)) {
-      const preClickDelay = randomRange(1000, 2000);
+      const preClickDelay = randomRange(600, 1200);
       await delay(preClickDelay);
 
       // Re-verify after potential scroll/layout changes
@@ -294,7 +294,7 @@ async function checkAndPerformLike() {
         await setStorageData({ likeCount: currentLikes });
 
         // Post-like stabilization delay
-        await delay(randomRange(1000, 1800));
+        await delay(randomRange(600, 1100));
       }
     }
   }
