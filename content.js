@@ -123,29 +123,29 @@ async function performHumanScroll(speed) {
   // Configure speed coefficients
   switch (speed) {
     case 'slow':
-      // Increased by 0.5x
-      stepMin = 12;
-      stepMax = 27;
-      delayMin = 120;
-      delayMax = 210;
-      totalDistance = randomRange(180, 360);
+      // Increased by 0.8x further
+      stepMin = 22;
+      stepMax = 48;
+      delayMin = 65;
+      delayMax = 115;
+      totalDistance = randomRange(320, 650);
       break;
     case 'fast':
-      // Increased by 0.5x
-      stepMin = 52;
-      stepMax = 105;
-      delayMin = 30;
-      delayMax = 70;
-      totalDistance = randomRange(600, 1050);
+      // Increased by 0.8x further
+      stepMin = 94;
+      stepMax = 190;
+      delayMin = 16;
+      delayMax = 38;
+      totalDistance = randomRange(1080, 1890);
       break;
     case 'normal':
     default:
-      // Increased by 0.5x
-      stepMin = 22;
-      stepMax = 52;
-      delayMin = 60;
-      delayMax = 120;
-      totalDistance = randomRange(330, 630);
+      // Increased by 0.8x further
+      stepMin = 40;
+      stepMax = 94;
+      delayMin = 33;
+      delayMax = 66;
+      totalDistance = randomRange(600, 1130);
       break;
   }
 

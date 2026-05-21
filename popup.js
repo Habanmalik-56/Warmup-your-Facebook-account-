@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Dynamic Announcement Fetching (Remote -> Local Package -> Fallback)
   async function loadAnnouncement() {
     const remoteUrl = 'https://fb-account-warmup.vercel.app/announcement.json'; // Admin can change this to their deployed domain
-    const defaultText = "Need A good video editor with 2 years+ experience I have a project Dm with your Portfolio";
+    const defaultText = "💡 Pro Tip: If a customer sends a message on your listing, first mark the item as Sold and then reply to the customer. This can help reduce the risk of account suspension caused by message activity. 😎";
 
     // 1. Try Remote Fetch
     try {

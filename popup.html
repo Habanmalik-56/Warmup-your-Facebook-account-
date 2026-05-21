@@ -501,6 +501,39 @@
     .continue-action-btn:active {
       transform: translateY(1px);
     }
+
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(37, 211, 102, 0.1);
+      border: 1px solid rgba(37, 211, 102, 0.3);
+      color: #25d366;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: var(--border-radius);
+      transition: all 0.2s ease;
+      margin-top: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.15);
+    }
+
+    .whatsapp-btn:hover {
+      background: rgba(37, 211, 102, 0.2);
+      border-color: #25d366;
+      box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3);
+      transform: translateY(-0.5px);
+    }
+
+    .whatsapp-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      margin-right: 8px;
+    }
   </style>
 </head>
 <body>
@@ -619,6 +652,10 @@
     <button id="main-btn" class="main-action-btn">
       <span>▶</span> Start Warm Up Session
     </button>
+    <a href="https://wa.me/923298073541?text=Hello%20AB%20Rehman%20Malik%2056,%20I%20need%20help%20with%20WarmUp%20Bot" target="_blank" class="whatsapp-btn">
+      <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.62.962 3.21 1.6 5.366 1.601 5.434 0 9.855-4.426 9.858-9.866.002-2.63-1.02-5.101-2.877-6.96S14.82 1.166 12.19 1.165C6.756 1.165 2.336 5.59 2.334 11.03c0 2.265.592 4.476 1.72 6.425L3.034 21.02l3.613-1.866zm10.732-5.467c-.29-.145-1.716-.848-1.976-.942-.26-.096-.45-.144-.64.145-.19.288-.73.942-.895 1.13-.166.187-.332.21-.622.065-2.072-1.037-3.414-1.758-4.786-4.108-.363-.622.363-.578 1.038-1.928.11-.22.055-.41-.027-.557-.08-.145-.73-1.758-1.002-2.408-.266-.64-.532-.55-.73-.56-.19-.01-.407-.01-.624-.01-.217 0-.57.08-.87.408-.3.33-1.14 1.113-1.14 2.716 0 1.603 1.17 3.15 1.332 3.37.163.22 2.3 3.51 5.57 4.922.778.337 1.387.538 1.862.688.784.248 1.498.214 2.062.13.629-.094 1.716-.701 1.956-1.38.24-.679.24-1.262.168-1.38-.072-.12-.26-.195-.55-.34z"/></svg>
+      Contact Support (WhatsApp)
+    </a>
   </div>
 
   <script src="popup.js"></script>
