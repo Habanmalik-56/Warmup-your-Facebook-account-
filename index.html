@@ -89,15 +89,9 @@
     .brand-logo {
       width: 32px;
       height: 32px;
-      background: var(--fb-blue);
       border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      color: #fff;
-      font-size: 18px;
       box-shadow: 0 0 15px var(--fb-blue-glow);
+      object-fit: cover;
     }
 
     .brand-title {
@@ -298,7 +292,7 @@
       margin-bottom: 20px;
     }
     .mock-brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px;}
-    .mock-logo { width: 20px; height: 20px; background: var(--fb-blue); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 11px;}
+    .mock-logo { width: 20px; height: 20px; border-radius: 4px; object-fit: cover;}
     .mock-status { display: flex; align-items: center; gap: 5px; background: rgba(52, 199, 89, 0.1); border: 1px solid rgba(52, 199, 89, 0.3); padding: 4px 8px; border-radius: 12px; font-size: 10px; color: var(--success); font-weight: 600;}
     .mock-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); box-shadow: 0 0 6px var(--success);}
     .mock-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
@@ -504,7 +498,7 @@
   <header>
     <div class="container nav-container">
       <a href="#" class="brand">
-        <div class="brand-logo">f</div>
+        <img class="brand-logo" src="icon.png" alt="WarmUp Bot Logo">
         <div class="brand-title">WarmUp Bot <span style="font-size: 20px; font-weight: 800; background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; margin-left: 4px;">developed by AB Rehman Malik 56</span></div>
       </a>
       <div class="nav-links">
@@ -546,7 +540,7 @@
         <div class="extension-mockup">
           <div class="mock-header">
             <div class="mock-brand">
-              <div class="mock-logo">f</div>
+              <img class="mock-logo" src="icon.png" alt="WarmUp Bot Logo">
               <span>WarmUp Bot <span style="font-size: 14px; font-weight: 800; background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; margin-left: 3px;">developed by AB Rehman Malik 56</span></span>
             </div>
             <div class="mock-status">

@@ -2,6 +2,10 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
   // UI Elements
+  const welcomeScreen = document.getElementById('welcome-screen');
+  const continueBtn = document.getElementById('continue-btn');
+  const announcementContent = document.getElementById('announcement-content');
+
   const urlAlert = document.getElementById('url-alert');
   const statusDot = document.getElementById('status-dot');
   const statusText = document.getElementById('status-text');
@@ -18,6 +22,55 @@ document.addEventListener('DOMContentLoaded', async () => {
   const mainBtn = document.getElementById('main-btn');
 
   let currentTabId = null;
+
+  // Handle CONTINUE button click to hide the overlay
+  continueBtn.addEventListener('click', () => {
+    welcomeScreen.style.display = 'none';
+  });
+
+  // Dynamic Announcement Fetching (Remote -> Local Package -> Fallback)
+  async function loadAnnouncement() {
+    const remoteUrl = 'https://fb-account-warmup.vercel.app/announcement.json'; // Admin can change this to their deployed domain
+    const defaultText = "Need A good video editor with 2 years+ experience I have a project Dm with your Portfolio";
+
+    // 1. Try Remote Fetch
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2500); // 2.5 second timeout
+      const res = await fetch(remoteUrl, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.announcement) {
+          announcementContent.textContent = data.announcement;
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to fetch remote announcement, checking local packaging...", e);
+    }
+
+    // 2. Try Local Bundle Fetch
+    try {
+      const localRes = await fetch(chrome.runtime.getURL('announcement.json'));
+      if (localRes.ok) {
+        const data = await localRes.json();
+        if (data && data.announcement) {
+          announcementContent.textContent = data.announcement;
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to fetch local packaged announcement...", e);
+    }
+
+    // 3. Hardcoded Fallback
+    announcementContent.textContent = defaultText;
+  }
+
+  // Fetch and display announcement
+  loadAnnouncement();
 
   // Check if active tab is facebook.com
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {

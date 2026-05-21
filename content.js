@@ -123,26 +123,29 @@ async function performHumanScroll(speed) {
   // Configure speed coefficients
   switch (speed) {
     case 'slow':
-      stepMin = 8;
-      stepMax = 18;
-      delayMin = 180;
-      delayMax = 320;
-      totalDistance = randomRange(120, 240);
+      // Increased by 0.5x
+      stepMin = 12;
+      stepMax = 27;
+      delayMin = 120;
+      delayMax = 210;
+      totalDistance = randomRange(180, 360);
       break;
     case 'fast':
-      stepMin = 35;
-      stepMax = 70;
-      delayMin = 50;
-      delayMax = 110;
-      totalDistance = randomRange(400, 700);
+      // Increased by 0.5x
+      stepMin = 52;
+      stepMax = 105;
+      delayMin = 30;
+      delayMax = 70;
+      totalDistance = randomRange(600, 1050);
       break;
     case 'normal':
     default:
-      stepMin = 15;
-      stepMax = 35;
-      delayMin = 90;
-      delayMax = 180;
-      totalDistance = randomRange(220, 420);
+      // Increased by 0.5x
+      stepMin = 22;
+      stepMax = 52;
+      delayMin = 60;
+      delayMax = 120;
+      totalDistance = randomRange(330, 630);
       break;
   }
 
@@ -262,7 +265,7 @@ function isElementInViewport(el) {
   );
 }
 
-// Scan the visible feed posts and perform a click action based on probability
+// Scan the visible feed posts and perform a click action on each candidate
 async function checkAndPerformLike() {
   const allLikes = getLikeButtons();
   
@@ -271,26 +274,28 @@ async function checkAndPerformLike() {
 
   if (candidateButtons.length === 0) return;
 
-  // Random 35% chance to click a like button when one is in viewport
-  if (Math.random() < 0.35) {
-    const targetBtn = candidateButtons[Math.floor(Math.random() * candidateButtons.length)];
+  // Like every visible unliked post sequentially
+  for (const targetBtn of candidateButtons) {
+    if (!loopActive) break;
 
-    // Short jitter delay before clicking
-    const preClickDelay = randomRange(1200, 2600);
-    await delay(preClickDelay);
+    // Double-check visibility and status before interaction
+    if (isElementInViewport(targetBtn) && !isAlreadyLiked(targetBtn)) {
+      const preClickDelay = randomRange(1000, 2000);
+      await delay(preClickDelay);
 
-    // Re-verify context safety
-    if (loopActive && isElementInViewport(targetBtn) && !isAlreadyLiked(targetBtn)) {
-      targetBtn.click();
-      console.log('[FB Warm Up] Liked post successfully.');
+      // Re-verify after potential scroll/layout changes
+      if (loopActive && isElementInViewport(targetBtn) && !isAlreadyLiked(targetBtn)) {
+        targetBtn.click();
+        console.log('[FB Warm Up] Liked post successfully.');
 
-      // Update storage stats
-      const state = await getStorageData();
-      const currentLikes = (state.likeCount || 0) + 1;
-      await setStorageData({ likeCount: currentLikes });
+        // Update storage stats
+        const state = await getStorageData();
+        const currentLikes = (state.likeCount || 0) + 1;
+        await setStorageData({ likeCount: currentLikes });
 
-      // Post-like stabilization delay
-      await delay(randomRange(1000, 2000));
+        // Post-like stabilization delay
+        await delay(randomRange(1000, 1800));
+      }
     }
   }
 }

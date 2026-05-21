@@ -68,15 +68,9 @@
     .brand-logo {
       width: 24px;
       height: 24px;
-      background: var(--fb-blue);
       border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #fff;
-      font-size: 14px;
       box-shadow: 0 0 10px var(--fb-blue-glow);
+      object-fit: cover;
     }
 
     .brand-title {
@@ -402,9 +396,130 @@
       text-align: center;
       line-height: 1.4;
     }
+
+    /* Welcome screen styles */
+    .welcome-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0a0a0f;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .welcome-container {
+      width: 100%;
+      max-width: 310px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .welcome-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px var(--fb-blue-glow);
+      margin-bottom: 12px;
+      object-fit: cover;
+    }
+
+    .welcome-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 2px;
+      letter-spacing: -0.5px;
+    }
+
+    .welcome-author {
+      font-size: 13px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #00d2ff 0%, #1877f2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 25px;
+      display: inline-block;
+    }
+
+    .announcement-card {
+      width: 100%;
+      background: rgba(20, 20, 35, 0.7);
+      border: 1px solid rgba(255, 59, 48, 0.3); /* Red border like the screenshot */
+      box-shadow: 0 0 15px rgba(255, 59, 48, 0.1);
+      border-radius: var(--border-radius);
+      padding: 16px;
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .announcement-badge {
+      font-size: 10px;
+      font-weight: 800;
+      color: #ff3b30; /* Red badge */
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .announcement-text {
+      font-size: 13px;
+      color: var(--text-main);
+      line-height: 1.5;
+      font-weight: 500;
+      word-break: break-word;
+    }
+
+    .continue-action-btn {
+      width: 100%;
+      background: #ff3b30; /* Red button */
+      border: none;
+      color: #fff;
+      padding: 12px;
+      border-radius: var(--border-radius);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 59, 48, 0.4);
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .continue-action-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(255, 59, 48, 0.6);
+    }
+
+    .continue-action-btn:active {
+      transform: translateY(1px);
+    }
   </style>
 </head>
 <body>
+
+  <!-- Welcome Overlay Screen -->
+  <div id="welcome-screen" class="welcome-overlay">
+    <div class="welcome-container">
+      <img class="welcome-logo" src="icon.png" alt="WarmUp Bot Logo">
+      <h1 class="welcome-title">WarmUp Bot</h1>
+      <span class="welcome-author">developed by AB Rehman Malik 56</span>
+      
+      <div class="announcement-card">
+        <div class="announcement-badge">ADMIN ANNOUNCEMENT</div>
+        <p id="announcement-content" class="announcement-text">Loading announcement...</p>
+      </div>
+      
+      <button id="continue-btn" class="continue-action-btn">CONTINUE</button>
+    </div>
+  </div>
 
   <!-- Non-Facebook Alert -->
   <div id="url-alert" class="alert-banner">
@@ -414,7 +529,7 @@
   <!-- Header -->
   <div class="header">
     <div class="brand">
-      <div class="brand-logo">f</div>
+      <img class="brand-logo" src="icon.png" alt="WarmUp Bot Logo">
       <div class="brand-title" style="line-height: 1.3;">WarmUp Bot <span style="font-size: 15px; font-weight: 800; background: linear-gradient(135deg, #00d2ff 0%, #1877f2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">developed by AB Rehman Malik 56</span></div>
     </div>
     <div class="status-badge">
