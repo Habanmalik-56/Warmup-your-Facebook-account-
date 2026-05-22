@@ -3,7 +3,7 @@
 let loopActive = false;
 let sessionTimeoutId = null;
 let totalScrolledPixels = 0;
-let nextReadingPauseDistance = randomRange(1200, 2400);
+let nextReadingPauseDistance = randomRange(3600, 7200);
 
 // Helper function: delay execution
 function delay(ms) {
@@ -102,16 +102,20 @@ async function runInteractionLoop() {
     if (state.scrollEnabled) {
       await performHumanScroll(state.speed);
     } else {
-      await delay(2000); // Wait if scroll is disabled
+      // If scroll is disabled but like is enabled, perform checking
+      if (state.likeEnabled) {
+        await checkAndLikeVisiblePost();
+      }
+      await delay(1000); // Wait if scroll is disabled
     }
 
-    // 2. Perform Liking (if enabled)
+    // 2. Perform a final check of likes after the scroll burst
     if (state.likeEnabled && loopActive) {
-      await checkAndPerformLike();
+      await checkAndLikeVisiblePost();
     }
 
-    // 3. Pause between cycles (human jitter delay)
-    const cyclePause = randomRange(2000, 4000);
+    // 3. Pause between cycles (extremely short cycle pause for turbo mode)
+    const cyclePause = randomRange(300, 800);
     await delay(cyclePause);
   }
 }
@@ -120,32 +124,29 @@ async function runInteractionLoop() {
 async function performHumanScroll(speed) {
   let stepMin, stepMax, delayMin, delayMax, totalDistance;
 
-  // Configure speed coefficients
+  // Configure speed coefficients (3x Turbo Boosted)
   switch (speed) {
     case 'slow':
-      // 1.5x speed boost
-      stepMin = 33;
-      stepMax = 72;
-      delayMin = 43;
-      delayMax = 77;
-      totalDistance = randomRange(480, 975);
+      stepMin = 150;
+      stepMax = 300;
+      delayMin = 10;
+      delayMax = 20;
+      totalDistance = randomRange(2000, 3500);
       break;
     case 'fast':
-      // 1.5x speed boost
-      stepMin = 141;
-      stepMax = 285;
-      delayMin = 10;
-      delayMax = 25;
-      totalDistance = randomRange(1620, 2835);
+      stepMin = 600;
+      stepMax = 1200;
+      delayMin = 1;
+      delayMax = 3;
+      totalDistance = randomRange(8000, 15000);
       break;
     case 'normal':
     default:
-      // 1.5x speed boost
-      stepMin = 60;
-      stepMax = 141;
-      delayMin = 22;
-      delayMax = 44;
-      totalDistance = randomRange(900, 1695);
+      stepMin = 300;
+      stepMax = 600;
+      delayMin = 5;
+      delayMax = 10;
+      totalDistance = randomRange(4000, 8000);
       break;
   }
 
@@ -160,13 +161,19 @@ async function performHumanScroll(speed) {
     scrolledThisCycle += step;
     totalScrolledPixels += step;
 
-    // Trigger intermittent reading pauses (simulate human processing)
+    // Check and perform likes DURING scrolling!
+    const state = await getStorageData();
+    if (state.likeEnabled && loopActive) {
+      await checkAndLikeVisiblePost();
+    }
+
+    // Trigger intermittent reading pauses (simulate human processing but much shorter)
     if (totalScrolledPixels >= nextReadingPauseDistance) {
-      const readPause = randomRange(3000, 8000);
+      const readPause = randomRange(800, 2000);
       console.log(`[FB Warm Up] Simulating reading pause for ${readPause}ms...`);
       await delay(readPause);
       totalScrolledPixels = 0;
-      nextReadingPauseDistance = randomRange(1200, 2400);
+      nextReadingPauseDistance = randomRange(3600, 7200);
     }
 
     const wait = randomRange(delayMin, delayMax);
@@ -254,48 +261,45 @@ function isAlreadyLiked(button) {
   return false;
 }
 
-// Verify if button element is currently visible in viewport
+// Verify if button element is currently visible in viewport (relaxed bounds)
 function isElementInViewport(el) {
   const rect = el.getBoundingClientRect();
+  const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
   return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    rect.top >= -100 &&
+    rect.bottom <= windowHeight + 150
   );
 }
 
-// Scan the visible feed posts and perform a click action on each candidate
-async function checkAndPerformLike() {
+// Scan the visible feed posts and click ALL unliked candidate buttons
+async function checkAndLikeVisiblePost() {
   const allLikes = getLikeButtons();
   
   // Filter for unliked elements that are visible on screen
   const candidateButtons = allLikes.filter(btn => isElementInViewport(btn) && !isAlreadyLiked(btn));
 
-  if (candidateButtons.length === 0) return;
+  if (candidateButtons.length === 0) return false;
 
+  let likedAny = false;
   // Like every visible unliked post sequentially
   for (const targetBtn of candidateButtons) {
     if (!loopActive) break;
 
     // Double-check visibility and status before interaction
     if (isElementInViewport(targetBtn) && !isAlreadyLiked(targetBtn)) {
-      const preClickDelay = randomRange(600, 1200);
-      await delay(preClickDelay);
+      // Very fast click action
+      targetBtn.click();
+      console.log('[FB Warm Up] Liked post successfully.');
+      likedAny = true;
 
-      // Re-verify after potential scroll/layout changes
-      if (loopActive && isElementInViewport(targetBtn) && !isAlreadyLiked(targetBtn)) {
-        targetBtn.click();
-        console.log('[FB Warm Up] Liked post successfully.');
+      // Update storage stats
+      const state = await getStorageData();
+      const currentLikes = (state.likeCount || 0) + 1;
+      await setStorageData({ likeCount: currentLikes });
 
-        // Update storage stats
-        const state = await getStorageData();
-        const currentLikes = (state.likeCount || 0) + 1;
-        await setStorageData({ likeCount: currentLikes });
-
-        // Post-like stabilization delay
-        await delay(randomRange(600, 1100));
-      }
+      // Tiny delay between multiple clicks to ensure registration
+      await delay(randomRange(150, 300));
     }
   }
+  return likedAny;
 }
