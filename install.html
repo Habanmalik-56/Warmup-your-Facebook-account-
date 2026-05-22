@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Installation Guide - WarmUp Bot</title>
+  <!-- Google AdSense Auto Ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8614299011204652"
+       crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #050508;
+      --surface-color: #0b0b14;
+      --card-bg: rgba(15, 15, 30, 0.6);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --fb-blue: #1877f2;
+      --fb-blue-glow: rgba(24, 119, 242, 0.4);
+      --text-main: #f5f5f9;
+      --text-muted: #9ba1b0;
+      --success: #34c759;
+      --border-radius: 16px;
+      --gradient-main: linear-gradient(135deg, #1877f2 0%, #00d2ff 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    .glow-circle {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: rgba(24, 119, 242, 0.12);
+      filter: blur(120px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .glow-1 {
+      top: -100px;
+      right: -100px;
+    }
+
+    .glow-2 {
+      bottom: 20%;
+      left: -150px;
+      background: rgba(0, 210, 255, 0.1);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navbar */
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px var(--fb-blue-glow);
+      object-fit: cover;
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-main);
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: var(--text-main);
+      color: var(--bg-color);
+      transform: translateY(-1px);
+    }
+
+    /* Section Header */
+    .page-title-section {
+      padding: 60px 0 20px 0;
+      text-align: center;
+    }
+
+    .page-title {
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 15px;
+      letter-spacing: -1px;
+    }
+
+    .page-title span {
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Steps Section */
+    .guide-container {
+      padding: 40px 0 80px 0;
+    }
+
+    .step-detail-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      margin-bottom: 30px;
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 30px;
+      align-items: start;
+      transition: all 0.3s ease;
+    }
+
+    .step-detail-card:hover {
+      border-color: rgba(24, 119, 242, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .step-large-num {
+      width: 70px;
+      height: 70px;
+      background: var(--gradient-main);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 800;
+      color: white;
+      box-shadow: 0 8px 20px var(--fb-blue-glow);
+    }
+
+    .step-content h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .step-content p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+
+    .step-content ul {
+      margin-left: 20px;
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .step-content code {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #00d2ff;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 80px 0;
+      text-align: center;
+      background: linear-gradient(180deg, var(--bg-color) 0%, rgba(24, 119, 242, 0.04) 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .cta-title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .cta-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-primary {
+      background: var(--gradient-main);
+      color: #fff;
+      border: none;
+      padding: 15px 30px;
+      border-radius: var(--border-radius);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(24, 119, 242, 0.4);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(24, 119, 242, 0.6);
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    footer p {
+      margin-bottom: 10px;
+    }
+
+    /* WhatsApp buttons styling */
+    .nav-whatsapp-btn {
+      background: rgba(37, 211, 102, 0.1);
+      border: 1px solid rgba(37, 211, 102, 0.3);
+      color: #25d366;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .nav-whatsapp-btn:hover {
+      background: rgba(37, 211, 102, 0.2);
+      border-color: #25d366;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+    }
+
+    .floating-whatsapp {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 56px;
+      height: 56px;
+      background: #25d366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4), 0 0 0 0px rgba(37, 211, 102, 0.7);
+      z-index: 9999;
+      transition: all 0.3s ease;
+      animation: pulse-whatsapp 2s infinite;
+    }
+
+    .floating-whatsapp:hover {
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6);
+    }
+
+    .floating-whatsapp svg {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+    }
+
+    @keyframes pulse-whatsapp {
+      0% {
+        box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4), 0 0 0 0px rgba(37, 211, 102, 0.7);
+      }
+      70% {
+        box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4), 0 0 0 15px rgba(37, 211, 102, 0);
+      }
+      100% {
+        box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4), 0 0 0 0px rgba(37, 211, 102, 0);
+      }
+    }
+
+    /* AdSense Container styling */
+    .ad-slot-container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(15, 15, 30, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: var(--border-radius);
+      min-height: 90px;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 768px) {
+      .step-detail-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 30px 20px;
+      }
+      .step-large-num {
+        margin: 0 auto;
+      }
+      .step-content ul {
+        display: inline-block;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-circle glow-1"></div>
+  <div class="glow-circle glow-2"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <img class="brand-logo" src="icon.png" alt="WarmUp Bot Logo">
+        <div class="brand-title">WarmUp Bot <span style="font-size: 20px; font-weight: 800; background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; margin-left: 4px;">developed by AB Rehman Malik 56</span></div>
+      </a>
+      <div class="nav-links">
+        <a href="features.html" class="nav-link">Features</a>
+        <a href="install.html" class="nav-link active">Installation Guide</a>
+        <a href="https://wa.me/923298073541?text=Hello%20AB%20Rehman%20Malik%2056,%20I%20need%20help%20with%20WarmUp%20Bot" target="_blank" class="nav-whatsapp-btn">
+          <svg style="width: 14px; height: 14px; fill: currentColor; margin-right: 6px; vertical-align: middle;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.62.962 3.21 1.6 5.366 1.601 5.434 0 9.855-4.426 9.858-9.866.002-2.63-1.02-5.101-2.877-6.96S14.82 1.166 12.19 1.165C6.756 1.165 2.336 5.59 2.334 11.03c0 2.265.592 4.476 1.72 6.425L3.034 21.02l3.613-1.866zm10.732-5.467c-.29-.145-1.716-.848-1.976-.942-.26-.096-.45-.144-.64.145-.19.288-.73.942-.895 1.13-.166.187-.332.21-.622.065-2.072-1.037-3.414-1.758-4.786-4.108-.363-.622.363-.578 1.038-1.928.11-.22.055-.41-.027-.557-.08-.145-.73-1.758-1.002-2.408-.266-.64-.532-.55-.73-.56-.19-.01-.407-.01-.624-.01-.217 0-.57.08-.87.408-.3.33-1.14 1.113-1.14 2.716 0 1.603 1.17 3.15 1.332 3.37.163.22 2.3 3.51 5.57 4.922.778.337 1.387.538 1.862.688.784.248 1.498.214 2.062.13.629-.094 1.716-.701 1.956-1.38.24-.679.24-1.262.168-1.38-.072-.12-.26-.195-.55-.34z"/></svg>
+          Support
+        </a>
+        <a href="fb-warmup-extension.zip" class="nav-btn" download>Download ZIP</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- AdSense: Below Header -->
+  <div class="ad-slot-container container">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8614299011204652"
+         data-ad-slot="AUTO"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- Page Title -->
+  <section class="page-title-section">
+    <div class="container">
+      <h1 class="page-title">How to Install <span>WarmUp Bot</span></h1>
+      <p class="page-subtitle">Follow this step-by-step developer guide to quickly load, run, and activate the Facebook Account Warm Up Chrome Extension in less than 3 minutes.</p>
+    </div>
+  </section>
+
+  <!-- Installation Steps Detail -->
+  <section class="guide-container">
+    <div class="container">
+      
+      <!-- Step 1 -->
+      <div class="step-detail-card">
+        <div class="step-large-num">1</div>
+        <div class="step-content">
+          <h3>Download the Extension Bundle</h3>
+          <p>Click on the download button anywhere on this website to save the packaged extension zip archive (<code>fb-warmup-extension.zip</code>) directly onto your desktop or computer.</p>
+          <p>This ZIP file contains the full source code (manifest, content script, interactive popup screen, announcements fallbacks, and the branding logo asset) required for the extension to operate locally.</p>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-detail-card">
+        <div class="step-large-num">2</div>
+        <div class="step-content">
+          <h3>Extract the Zip Archive</h3>
+          <p>Once downloaded, locate the archive file and extract its content to a specific folder on your local drive. You can name the destination folder <code>fb-warmup-extension</code> or something easy to find.</p>
+          <ul>
+            <li><strong>On Windows:</strong> Right-click the file and select <em>Extract All...</em>, then follow instructions.</li>
+            <li><strong>On Mac:</strong> Double-click the ZIP archive to instantly decompress it.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AdSense: Middle of Content -->
+      <div class="ad-slot-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8614299011204652"
+             data-ad-slot="AUTO"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-detail-card">
+        <div class="step-large-num">3</div>
+        <div class="step-content">
+          <h3>Enable Developer Mode in Chrome</h3>
+          <p>Chrome Extensions loaded locally must be processed under Chrome developer rules. Open your Chrome browser, click the three-dot menu at the top right, navigate to <strong>Extensions</strong>, and choose <strong>Manage Extensions</strong>. Alternatively, simply paste this link in your browser bar: <code>chrome://extensions</code>.</p>
+          <p>Locate the <strong>Developer mode</strong> toggle button at the top-right corner of the Extensions dashboard page and slide it to <strong>Enabled</strong> (ON).</p>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step-detail-card">
+        <div class="step-large-num">4</div>
+        <div class="step-content">
+          <h3>Load the Unpacked Directory</h3>
+          <p>Once developer mode is enabled, click the <strong>"Load unpacked"</strong> button located at the top left of the chrome extensions manager dashboard page.</p>
+          <p>Browse your filesystem, select the directory/folder where you extracted the ZIP archive in Step 2, and click <strong>Select Folder</strong>. The WarmUp Bot extension will now appear in your active extensions list.</p>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="step-detail-card">
+        <div class="step-large-num">5</div>
+        <div class="step-content">
+          <h3>Pin and Run the Extension</h3>
+          <p>Click on the extensions puzzle piece icon in your Chrome toolbar, locate <strong>WarmUp Bot</strong>, and click the pin icon to make it always visible.</p>
+          <p>Now open a new browser tab, go to <a href="https://www.facebook.com" target="_blank" style="color: #1877f2; font-weight: 600; text-decoration: none;">facebook.com</a>, log into your profile, click the extension icon to reveal the control panel, configure your warm-up preferences, and click <strong>Start Warm Up Session</strong>!</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <h2 class="cta-title">Ready to install?</h2>
+      <p class="cta-desc">Get the latest built package file of WarmUp Bot now and start building your trust score immediately.</p>
+      <a href="fb-warmup-extension.zip" class="btn-primary" download>
+        📥 Download Extension ZIP
+      </a>
+    </div>
+  </section>
+
+  <!-- AdSense: Above Footer -->
+  <div class="ad-slot-container container">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8614299011204652"
+         data-ad-slot="AUTO"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 WarmUp Bot. Distributed locally and designed for marketing optimization.</p>
+      <p style="font-size: 11px; color: rgba(255,255,255,0.2);">Disclaimer: WarmUp Bot is not affiliated, associated, or officially connected with Meta Platforms, Inc. or Facebook.</p>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Widget -->
+  <a href="https://wa.me/923298073541?text=Hello%20AB%20Rehman%20Malik%2056,%20I%20need%20help%20with%20WarmUp%20Bot" target="_blank" class="floating-whatsapp" title="Contact Support on WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.62.962 3.21 1.6 5.366 1.601 5.434 0 9.855-4.426 9.858-9.866.002-2.63-1.02-5.101-2.877-6.96S14.82 1.166 12.19 1.165C6.756 1.165 2.336 5.59 2.334 11.03c0 2.265.592 4.476 1.72 6.425L3.034 21.02l3.613-1.866zm10.732-5.467c-.29-.145-1.716-.848-1.976-.942-.26-.096-.45-.144-.64.145-.19.288-.73.942-.895 1.13-.166.187-.332.21-.622.065-2.072-1.037-3.414-1.758-4.786-4.108-.363-.622.363-.578 1.038-1.928.11-.22.055-.41-.027-.557-.08-.145-.73-1.758-1.002-2.408-.266-.64-.532-.55-.73-.56-.19-.01-.407-.01-.624-.01-.217 0-.57.08-.87.408-.3.33-1.14 1.113-1.14 2.716 0 1.603 1.17 3.15 1.332 3.37.163.22 2.3 3.51 5.57 4.922.778.337 1.387.538 1.862.688.784.248 1.498.214 2.062.13.629-.094 1.716-.701 1.956-1.38.24-.679.24-1.262.168-1.38-.072-.12-.26-.195-.55-.34z"/></svg>
+  </a>
+
+</body>
+</html>
